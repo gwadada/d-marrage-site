@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des rums{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <h1>Liste des rhums</h1>
+    {{ dump (rhums) }}
+    <ul>
+        {% for rhum in rhums %}
+            <li>
+                {{ rhum.marque }}
+                <a href="{{ path('app_rhum_show', {id:rhum.id}) }}">Fiche rhum</a>
+
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+

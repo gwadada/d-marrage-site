@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>page modification</h1>
+    {{ form_start(editForm) }}
+    {{ form_widget(editForm) }}
+    <input type="submit" value="Modifier le rhum" class="btn btn-success">
+    {{ form_end(editForm) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

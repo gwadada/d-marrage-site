@@ -24,7 +24,7 @@ class CategoryRhum
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rhum", mappedBy="nom")
+     * @ORM\OneToMany(targetEntity="App\Entity\Rhum", mappedBy="CategoryRhum")
      */
     private $rhums;
 
@@ -37,6 +37,11 @@ class CategoryRhum
     public function __construct()
     {
         $this->rhums = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 
     public function getId(): ?int
@@ -68,7 +73,7 @@ class CategoryRhum
     {
         if (!$this->rhums->contains($rhum)) {
             $this->rhums[] = $rhum;
-            $rhum->setNom($this);
+            $rhum->setCategoryRhum($this);
         }
 
         return $this;
@@ -79,8 +84,8 @@ class CategoryRhum
         if ($this->rhums->contains($rhum)) {
             $this->rhums->removeElement($rhum);
             // set the owning side to null (unless already changed)
-            if ($rhum->getNom() === $this) {
-                $rhum->setNom(null);
+            if ($rhum->getCategoryRhum() === $this) {
+                $rhum->setCategoryRhum(null);
             }
         }
 

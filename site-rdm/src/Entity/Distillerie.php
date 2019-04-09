@@ -59,6 +59,18 @@ class Distillerie
         $this->categoryRhums = new ArrayCollection();
     }
 
+    /**
+     * Permet de convertir en objet en chaine de caractères
+     * Utilisé automatiquement pour afficher la liste déroulante
+     * ... du formulaire des commentaires
+     * @return mixed
+     */
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->nom;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

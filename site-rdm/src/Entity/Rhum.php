@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RhumRepository")
  */
@@ -18,6 +18,10 @@ class Rhum
 
     /**
      * @ORM\Column(type="string", length=70)
+     * @Assert\Length(
+     *     min = 5,
+     *     max = 70
+     *     )
      */
     private $marque;
 
@@ -38,7 +42,9 @@ class Rhum
 
     /**
      * @ORM\Column(type="date")
-     */
+     * @Assert\Date
+     * @var string A "Y-m-d H:i:s" formatted value
+    */
     private $millesime;
 
     /**
@@ -55,7 +61,7 @@ class Rhum
      * @ORM\ManyToOne(targetEntity="App\Entity\CategoryRhum", inversedBy="rhums")
      * @ORM\JoinColumn(nullable=false, name="category_rhum")
      */
-    private $nom;
+    private $CategoryRhum;
 
     public function getId(): ?int
     {
@@ -115,8 +121,11 @@ class Rhum
         return $this->millesime;
     }
 
-    public function setMillesime(\DateTimeInterface $millesime): self
+    public function setMillesime($millesime): self
     {
+        if(is_string($millesime)) {
+            $millesime = new \DateTime($millesime);
+        }
         $this->millesime = $millesime;
 
         return $this;
@@ -146,14 +155,14 @@ class Rhum
         return $this;
     }
 
-    public function getNom(): ?CategoryRhum
+    public function getCategoryRhum(): ?CategoryRhum
     {
-        return $this->nom;
+        return $this->CategoryRhum;
     }
 
-    public function setNom(?CategoryRhum $nom): self
+    public function setCategoryRhum(?CategoryRhum $CategoryRhum): self
     {
-        $this->nom = $nom;
+        $this->CategoryRhum = $CategoryRhum;
 
         return $this;
     }
