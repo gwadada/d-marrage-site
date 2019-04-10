@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilsateurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1>
+
+    <ul>
+        {% for fos_user in users %}
+            <li>
+                {{ fos_user.username }}
+                <a href="{{ path('app_user_list', {id:fos_user.username}) }}">Fiche rhum</a>
+
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

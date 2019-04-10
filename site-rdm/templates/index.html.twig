@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des rums{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block title %}Liste des rhums{% endblock %}
 
 {% block body %}
     <h1>Liste des rhums</h1>
-    {{ dump (rhums) }}
+
     <ul>
         {% for rhum in rhums %}
             <li>

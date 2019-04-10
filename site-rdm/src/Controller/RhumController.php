@@ -17,7 +17,7 @@ class RhumController extends AbstractController
 {
 
     /**
-     * @Route("/rhum", name="rhum")
+     * @Route("/", name="rhum")
      * @return Response
      */
     public function index(): Response
@@ -56,10 +56,10 @@ class RhumController extends AbstractController
         return $this->render('rhum/create.html.twig', ['createForm' => $form->createView()]);
     }
 
-    /**
+    /*
      * @Route("/rhum/{id}")
      * @return Response
-     */
+     *
     public function show($id): Response
     {
         //Récupération du Repository
@@ -68,13 +68,15 @@ class RhumController extends AbstractController
         $rhums = $repository->findOneBy(['id' => $id]);
 
         return $this->render('rhum/show.html.twig', ['rhum' => $rhums]);
-    }
+    }*/
 
     /**
+     * @Route("/rhum/{id}")
      * @param Rhum $rhum
-     *
+     * @param Request $request
+     * @return Response
      */
-    public function show(Rhum $rhum)
+    public function show(Rhum $rhum, Request $request)
     {
         //Création du formulaire pour l'ajout de commentaire
         $newComment = new Comment();
@@ -82,29 +84,31 @@ class RhumController extends AbstractController
         $commentForm = $this->createForm(CommentFronType::class, $newComment);
 
         // Gestion de l'ajout d'un commentaire
-        $form->handleRequest($request);
-            // On vérifie que le formulaire est soumis et valide
-        if ($form->isSubmitted() && $form->isValid()){
+        $commentForm->handleRequest($request);
+        // On vérifie que le formulaire est soumis et valide
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             // Récupération du manager
-        $manager = $this->getDoctrine()->getManager();
+            $manager = $this->getDoctrine()->getManager();
             // Mis en BDD
-        $manager->flush();
-        // Création d'un nouveau formulaire
-        $newComment = new Comment();
-        $newComment->setContent($rhum);
-        $commentForm = $this->createForm(CommentFronType::class, $newComment);
+            $manager->flush();
+            // Création d'un nouveau formulaire
+            $newComment = new Comment();
+            $newComment->setContent($rhum);
+            $commentForm = $this->createForm(CommentFronType::class, $newComment);
 
         }
 
         return $this->render('rhum/show.html.twig', ['rhum' => $rhum,
-        'commentForm' => $commentForm->createView()]);
-    
+            'commentForm' => $commentForm->createView()
+        ]);
+    }
 
-    /**
-     * @Route("/rhum/{id}/modification", name="rhum_update")
-     * @param Rhum $rhum
-     * @return Response
-     */
+        /**
+         * @Route("/rhum/{id}/modification", name="rhum_update")
+         * @param Rhum $rhum
+         * @param Request $request
+         * @return Response
+         */
     public function edit(Rhum $rhum, Request $request): Response
     {
         //Récupération du formulaire
@@ -112,10 +116,11 @@ class RhumController extends AbstractController
         // Remplir le formulaire avec les variables $_POST
         $form->handleRequest($request);
         // On vérifie que le formulaire est soumis et valide
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             // Récupération du manager
             $manager = $this->getDoctrine()->getManager();
             // Mis en BDD
+            $manager->persist($form);
             $manager->flush();
             // Ajout du message flash
             $this->addFlash('primary', 'votre rhum a bien été modifié');
