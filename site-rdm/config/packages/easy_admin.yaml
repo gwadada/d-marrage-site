@@ -1,0 +1,39 @@
+easy_admin:
+    entities:
+        Origine:
+            class: App\Entity\Origine
+        Distillerie:
+            class: App\Entity\Distillerie
+        CategoryRhum:
+            class: App\Entity\CategoryRhum
+        Rhum:
+            class: App\Entity\Rhum
+            form:
+                fields:
+                    - marque
+                    - type
+                    - degre
+                    - volume
+                    - PrixBoutique
+                    - PrixAdherent
+                    - category
+                    - {property: 'millesime', type: 'date', type_options: {'widget': 'single_text', format: 'yyyy', 'help': "Veuillez saisir une date. Exemple: 1998", 'invalid_message': "Veuillez saisir une date. Exemple: 1998" }}
+        FicheDegustation:
+            class: App\Entity\FicheDegustation
+            form:
+                fields:
+                    - marque
+                    - Analysevisuelle
+                    - Analyseolfactive
+                    - Analysegustative
+        CategoryEvenement:
+            class: App\Entity\CategoryEvenement
+        Evenement:
+            class: App\Entity\Evenement
+
+        Article:
+            class: App\Entity\Article
+
+        User:
+            class: App\Entity\User
+        # List the entity class name you want to manage

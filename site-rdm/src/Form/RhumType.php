@@ -12,8 +12,8 @@ class RhumType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('marque', null, ['label' => "Marque du Rhum"])
-            ->add('type', null, ['label' => "Type distillation"])
+            ->add('marque')
+            ->add('type')
             ->add('degre')
             ->add('volume')
             ->add('millesime')

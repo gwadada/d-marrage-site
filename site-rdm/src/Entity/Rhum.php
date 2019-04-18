@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
+ * @property  categoryRhums
+ * @property  nom
  * @ORM\Entity(repositoryClass="App\Repository\RhumRepository")
  */
 class Rhum
@@ -41,13 +46,6 @@ class Rhum
     private $volume;
 
     /**
-     * @ORM\Column(type="date")
-     * @Assert\Date
-     * @var string A "Y-m-d H:i:s" formatted value
-    */
-    private $millesime;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $PrixBoutique;
@@ -58,10 +56,34 @@ class Rhum
     private $PrixAdherent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategoryRhum", inversedBy="rhums")
-     * @ORM\JoinColumn(nullable=false, name="category_rhum")
+     * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      min = "1000-00-00",
+     *      minMessage = "Année minimum : 1000"
+     * )
      */
-    private $CategoryRhum;
+    private $millesime;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoryRhum", inversedBy="rhums")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\FicheDegustation", mappedBy="marque", cascade={"persist", "remove"})
+     */
+    private $ficheDegustation;
+
+    public function __construct()
+    {
+        $this->categoryRhums = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->marque . ' '  . $this->type;
+    }
 
     public function getId(): ?int
     {
@@ -116,21 +138,6 @@ class Rhum
         return $this;
     }
 
-    public function getMillesime(): ?\DateTimeInterface
-    {
-        return $this->millesime;
-    }
-
-    public function setMillesime($millesime): self
-    {
-        if(is_string($millesime)) {
-            $millesime = new \DateTime($millesime);
-        }
-        $this->millesime = $millesime;
-
-        return $this;
-    }
-
     public function getPrixBoutique(): ?int
     {
         return $this->PrixBoutique;
@@ -155,15 +162,45 @@ class Rhum
         return $this;
     }
 
-    public function getCategoryRhum(): ?CategoryRhum
+    public function getMillesime(): ?\DateTimeInterface
     {
-        return $this->CategoryRhum;
+        return $this->millesime;
     }
 
-    public function setCategoryRhum(?CategoryRhum $CategoryRhum): self
+    public function setMillesime(\DateTimeInterface $millesime): self
     {
-        $this->CategoryRhum = $CategoryRhum;
+        $this->millesime = $millesime;
 
         return $this;
     }
+
+    public function getCategory(): ?CategoryRhum
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CategoryRhum $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getFicheDegustation(): ?FicheDegustation
+    {
+        return $this->ficheDegustation;
+    }
+
+    public function setFicheDegustation(FicheDegustation $ficheDegustation): self
+    {
+        $this->ficheDegustation = $ficheDegustation;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $ficheDegustation->getMarque()) {
+            $ficheDegustation->setMarque($this);
+        }
+
+        return $this;
+    }
+
 }

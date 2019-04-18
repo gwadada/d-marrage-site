@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190408095553 extends AbstractMigration
+final class Version20190418103749 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,10 +22,9 @@ final class Version20190408095553 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE category_rhum ADD distillerie_id INT NOT NULL');
-        $this->addSql('ALTER TABLE category_rhum ADD CONSTRAINT FK_4C66C7825EDCF26F FOREIGN KEY (distillerie_id) REFERENCES distillerie (id)');
-        $this->addSql('CREATE INDEX IDX_4C66C7825EDCF26F ON category_rhum (distillerie_id)');
-        $this->addSql('ALTER TABLE rhum ADD many_to_one INT NOT NULL');
+        $this->addSql('ALTER TABLE fiche_degustation ADD marque_id INT NOT NULL');
+        $this->addSql('ALTER TABLE fiche_degustation ADD CONSTRAINT FK_41D4FE8F4827B9B2 FOREIGN KEY (marque_id) REFERENCES rhum (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_41D4FE8F4827B9B2 ON fiche_degustation (marque_id)');
     }
 
     public function down(Schema $schema) : void
@@ -33,9 +32,8 @@ final class Version20190408095553 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE category_rhum DROP FOREIGN KEY FK_4C66C7825EDCF26F');
-        $this->addSql('DROP INDEX IDX_4C66C7825EDCF26F ON category_rhum');
-        $this->addSql('ALTER TABLE category_rhum DROP distillerie_id');
-        $this->addSql('ALTER TABLE rhum DROP many_to_one');
+        $this->addSql('ALTER TABLE fiche_degustation DROP FOREIGN KEY FK_41D4FE8F4827B9B2');
+        $this->addSql('DROP INDEX UNIQ_41D4FE8F4827B9B2 ON fiche_degustation');
+        $this->addSql('ALTER TABLE fiche_degustation DROP marque_id');
     }
 }

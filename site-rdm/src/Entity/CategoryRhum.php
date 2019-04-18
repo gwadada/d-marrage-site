@@ -24,15 +24,15 @@ class CategoryRhum
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rhum", mappedBy="CategoryRhum")
-     */
-    private $rhums;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Distillerie", inversedBy="categoryRhums")
      * @ORM\JoinColumn(nullable=false)
      */
     private $distillerie;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rhum", mappedBy="category")
+     */
+    private $rhums;
 
     public function __construct()
     {
@@ -61,6 +61,18 @@ class CategoryRhum
         return $this;
     }
 
+    public function getDistillerie(): ?Distillerie
+    {
+        return $this->distillerie;
+    }
+
+    public function setDistillerie(?Distillerie $distillerie): self
+    {
+        $this->distillerie = $distillerie;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Rhum[]
      */
@@ -73,7 +85,7 @@ class CategoryRhum
     {
         if (!$this->rhums->contains($rhum)) {
             $this->rhums[] = $rhum;
-            $rhum->setCategoryRhum($this);
+            $rhum->setCategory($this);
         }
 
         return $this;
@@ -84,22 +96,10 @@ class CategoryRhum
         if ($this->rhums->contains($rhum)) {
             $this->rhums->removeElement($rhum);
             // set the owning side to null (unless already changed)
-            if ($rhum->getCategoryRhum() === $this) {
-                $rhum->setCategoryRhum(null);
+            if ($rhum->getCategory() === $this) {
+                $rhum->setCategory(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDistillerie(): ?Distillerie
-    {
-        return $this->distillerie;
-    }
-
-    public function setDistillerie(?Distillerie $distillerie): self
-    {
-        $this->distillerie = $distillerie;
 
         return $this;
     }

@@ -4,12 +4,12 @@
 
 {% block body %}
     <h1>Liste des utilisateurs</h1>
-
+<h2>je suis dans list</h2>
     <ul>
         {% for fos_user in users %}
             <li>
                 {{ fos_user.username }}
-                <a href="{{ path('app_user_list', {id:fos_user.username}) }}">Fiche rhum</a>
+                <a href="{{ path('app_user_editrole', {id: fos_user.id}) }}">Modifier le rôle</a>
 
             </li>
         {% endfor %}
