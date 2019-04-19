@@ -1,0 +1,25 @@
+.navbar {
+    background-color: #597a92;
+}
+.navbar .navbar-brand img {
+    max-height: 3rem;
+}
+.navbar {
+    background-color: #1b1e21;
+}
+.navbar img{
+    max-height: 3rem;
+}
+.navbar-nav {
+    align-items: center;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+
+.carousel {
+    position: absolute;
+    width: 100%;
+    top: 5rem;
+    z-index: -1;
+}
