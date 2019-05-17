@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @property  categoryRhums
- * @property  nom
  * @ORM\Entity(repositoryClass="App\Repository\RhumRepository")
  */
 class Rhum

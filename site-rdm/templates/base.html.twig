@@ -8,6 +8,7 @@
     <title>Document</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/signin.css') }}">
     {% endblock %}
 </head>
@@ -15,7 +16,8 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -28,7 +30,8 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -42,21 +45,21 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <div>
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-
-                    <a href="{{ path('fos_user_security_logout') }}">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
                         {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                     </a>
-                {% else %}
-                    <a href="{{ path('fos_user_registration_register') }}">Inscription</a>
-                    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-                {% endif %}
-            </div>
+                    {% else %}
+                    <a class="nav-link" href="{{ path('fos_user_registration_register') }}">Inscription</a>
+                </li>
+                <li>
+                    <a class="nav-link"
+                       href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    {% endif %}
+                </li>
+            </ul>
         </div>
     </nav>
 {% endblock %}
@@ -74,10 +77,33 @@
         {% endfor %}
     </div>
 {% endblock %}
-    {% block body %}
+{# Verif age #}
+{% if not app.session.get('verifage') %}
+    <div class="filter-dark"></div>
+    <div id="verifage">
+        <div>
+            <h2>Bienvenue sur le site de Dugas</h2>
+            <p>Ce site est exclusivement réservé aux personnes majeures.
 
-    {% endblock %}
-</main>
+                Je certifie avoir l'âge légal de consommer de l'alcool dans mon pays de résidence.
+
+                Êtes-vous majeur(e) ?
+                <a href="{{ path('app_verifage', {choice: 1}) }}?url={{ app.request.requestUri }}" class="btn btn-outline-info">Oui</a>
+                <a href="{{ path('app_verifage', {choice: 0}) }}?url={{ app.request.requestUri }}" class="btn btn-outline-info">Non</a>
+
+                L'abus d'alcool est dangereux pour la santé. A consommer avec modération.
+
+                Mentions légales</p>
+
+             {{ dump(app.request.requestUri) }}
+
+        </div>
+    </div>
+{% endif %}
+
+{% block body %}
+
+{% endblock %}
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
