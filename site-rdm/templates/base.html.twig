@@ -78,7 +78,7 @@
     </div>
 {% endblock %}
 {# Verif age #}
-{% if not app.session.get('verifage') %}
+{% if not app.request.cookies.get('verifage') %}
     <div class="filter-dark"></div>
     <div id="verifage">
         <div>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,11 +29,15 @@ class VerifAgeController extends AbstractController
         $url = $request->query->get('url');
         $router = $this->get('router');
         $routeName = $router->match($url)['_route'];
+        // Cookie
+        $cookie = new Cookie('verifage', true);
         // Si c'est ok, on l'enregistre dans la session
         if ($choice === "1") {
-            $session->set('verifage', true);
             // On le redirige vers la route trouvée
-            return $this->redirectToRoute($routeName);
+            $response = $this->redirectToRoute($routeName);
+            // On place le cookie dans la réponse
+            $response->headers->setCookie($cookie);
+            return $response;
         } else {
             return new RedirectResponse("https://www.google.com");
         }

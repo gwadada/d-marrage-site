@@ -5,7 +5,7 @@ security:
     role_hierarchy:
 
         ROLE_CONTRIBUTEUR: ROLE_USER
-        ROLE_MEMBRE: [ROLE_INTRENAUTE, ROLE_CONTRIBUTEUR]
+        ROLE_MEMBRE: [ROLE_INTERNAUTE, ROLE_CONTRIBUTEUR]
         ROLE_MEMBRE_BUREAU: ROLE_MEMBRE
         ROLE_ADMIN: [ROLE_MEMBRE, ROLE_MEMBRE_BUREAU]
 
@@ -29,8 +29,8 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/back-office/, role: ROLE_USER }
-#        - { path: ^/admin/, role: ROLE_INTERNAUTE }
-#        - { path: ^/admin/, role: ROLE_CONTRIBUTEUR }
+        - { path: ^/admin/, role: ROLE_INTERNAUTE }
+        - { path: ^/back-office/, role: ROLE_CONTRIBUTEUR }
         - { path: ^/back-office/, role: ROLE_MEMBRE }
         - { path: ^/back-office/, role: ROLE_MEMBRE_BUREAU }
 #        - { path: ^/admin/, role: ROLE_ADMIN }

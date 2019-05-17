@@ -22,4 +22,4 @@
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 
-/htdocs/
+htdocs
