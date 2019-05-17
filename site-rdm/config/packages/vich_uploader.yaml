@@ -1,0 +1,45 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        # Etape 1 : ajouter le mapping
+        # Etape 2 : make:entity -> creation image_name
+        # Etape 3 : migrations diff puis migrate
+        # Etape 4 : créer manuellement la propriété "imageFile" dans l'entité
+        # Etape 5 : ajouter l'annotation @Vich\UploadableField
+        # Etape 6 : import class Vich (use Vich\UploaderBundle\Mapping\Annotation as Vich;)
+        # Etape 7 : parametrer l'annotation (nom du mapping (defini ici), nom de la propriete (image_name)
+        # Etape 8 : annotation (@var File|null) au dessus de (image_name)
+        # Etape 9 : import class File (use Symfony\Component\HttpFoundation\File\File;)
+        # Etape 10 : annotation  @Vich\Uploadable sur l'entité
+        # Etape 11 : ajout getter/setter sur "imageFile"
+        # Etape 12 : ajout de updatedAt dans l'entité (make:entity, diff, migrate)
+        # Etape 13 : modification de "setImageFile" ajout de :
+#        if (null !== $imageFile) {
+#            // It is required that at least one field changes if you are using doctrine
+#            // otherwise the event listeners won't be called and the file is lost
+#            $this->updatedAt = new \DateTimeImmutable();
+#        }
+        # Etape 14 : ajout/modification constructeur
+#        public function __construct()
+#        {
+#        $this->updatedAt = new \DateTime();
+#        }
+        # Etape 15 : modification formulaire easyadmin (config/package/easy_admin.yaml)
+#        Article:
+#            class: App\Entity\Article
+#            form:
+#                fields:
+#                    - Titre
+#                    - Texte
+#                    - {property: imageFile, type: 'Vich\UploaderBundle\Form\Type\VichImageType'}
+        # Etape 16 : pour afficher l'image (twig)
+#        <img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.titre }}" />
+        # où : article -> variable de l'entité
+        # où : imageFile -> imageFile
+        article_image:
+            uri_prefix: /uploads/article
+            upload_destination: '%kernel.project_dir%/public/uploads/article'
+        #products:
+        #    uri_prefix: /images/products
+        #    upload_destination: '%kernel.project_dir%/public/images/products'

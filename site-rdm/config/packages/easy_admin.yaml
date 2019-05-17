@@ -33,6 +33,11 @@ easy_admin:
 
         Article:
             class: App\Entity\Article
+            form:
+                fields:
+                    - Titre
+                    - Texte
+                    - {property: imageFile, type: 'Vich\UploaderBundle\Form\Type\VichImageType'}
 
         User:
             class: App\Entity\User
